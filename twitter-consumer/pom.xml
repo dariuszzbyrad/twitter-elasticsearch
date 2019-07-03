@@ -16,9 +16,23 @@
 
     <properties>
         <java.version>1.8</java.version>
+
+        <twitter.hbc.version>2.2.0</twitter.hbc.version>
+        <lombok.version>1.18.8</lombok.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.twitter</groupId>
+            <artifactId>hbc-core</artifactId>
+            <version>${twitter.hbc.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>

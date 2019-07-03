@@ -29,6 +29,7 @@ docker/ecosystem/*
 elasticsearch-producer/*.iml
 elasticsearch-producer/.idea/
 
-# Elasticsearch producer project
+# Twitter consumer project
 twitter-consumer/*.iml
 twitter-consumer/.idea/
+twitter-consumer/src/main/resources/application.properties
