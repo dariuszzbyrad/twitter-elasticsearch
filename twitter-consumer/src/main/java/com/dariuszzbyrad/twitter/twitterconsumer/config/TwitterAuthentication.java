@@ -2,12 +2,10 @@ package com.dariuszzbyrad.twitter.twitterconsumer.config;
 
 import com.twitter.hbc.httpclient.auth.Authentication;
 import com.twitter.hbc.httpclient.auth.OAuth1;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-@Getter
 public class TwitterAuthentication {
 
     private final String consumerAPIKey;

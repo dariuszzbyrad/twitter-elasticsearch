@@ -1,5 +1,6 @@
 package com.dariuszzbyrad.twitter.twitterconsumer.job;
 
+import com.dariuszzbyrad.twitter.twitterconsumer.config.KafkaConfig;
 import com.dariuszzbyrad.twitter.twitterconsumer.config.TwitterAuthentication;
 import com.twitter.hbc.ClientBuilder;
 import com.twitter.hbc.core.Client;
@@ -11,13 +12,11 @@ import com.twitter.hbc.core.processor.StringDelimitedProcessor;
 import com.twitter.hbc.httpclient.auth.Authentication;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.*;
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
@@ -29,9 +28,6 @@ public class TwitterConsumer extends Thread {
     @Value("${kafka.topic.name}")
     private String topicName;
 
-    @Value("${kafka.bootstrap.server}")
-    private String bootstrapServer;
-
     @Value("${kafka.client.name}")
     private String clientName;
 
@@ -39,6 +35,7 @@ public class TwitterConsumer extends Thread {
     private String twitterTerms;
 
     private TwitterAuthentication twitterAuthentication;
+    private KafkaConfig kafkaConfig;
 
     public void run()  {
         BlockingQueue<String> msgQueue = new LinkedBlockingQueue<String>(10000);
@@ -46,7 +43,7 @@ public class TwitterConsumer extends Thread {
         Client hosebirdClient = createTwitterClient(msgQueue);
         hosebirdClient.connect();
 
-        KafkaProducer<String, String> producer = createKafkaProducer();
+        KafkaProducer<String, String> producer = kafkaConfig.getKafkaProducer();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             hosebirdClient.stop();
@@ -72,23 +69,6 @@ public class TwitterConsumer extends Thread {
         }
 
         hosebirdClient.stop();
-    }
-
-    private KafkaProducer<String, String> createKafkaProducer() {
-        Properties properties = new Properties();
-        properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
-        properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-
-        //create safe Producer
-        properties.setProperty(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
-        properties.setProperty(ProducerConfig.ACKS_CONFIG, "all");
-        properties.setProperty(ProducerConfig.RETRIES_CONFIG, Integer.toString(Integer.MAX_VALUE));
-        properties.setProperty(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5");
-
-        KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
-
-        return producer;
     }
 
     public Client createTwitterClient(BlockingQueue<String> msgQueue) {
