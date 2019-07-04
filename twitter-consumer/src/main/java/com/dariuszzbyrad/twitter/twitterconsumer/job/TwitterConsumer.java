@@ -1,6 +1,6 @@
 package com.dariuszzbyrad.twitter.twitterconsumer.job;
 
-import com.google.common.collect.Lists;
+import com.dariuszzbyrad.twitter.twitterconsumer.config.TwitterAuthentication;
 import com.twitter.hbc.ClientBuilder;
 import com.twitter.hbc.core.Client;
 import com.twitter.hbc.core.Constants;
@@ -9,7 +9,6 @@ import com.twitter.hbc.core.HttpHosts;
 import com.twitter.hbc.core.endpoint.StatusesFilterEndpoint;
 import com.twitter.hbc.core.processor.StringDelimitedProcessor;
 import com.twitter.hbc.httpclient.auth.Authentication;
-import com.twitter.hbc.httpclient.auth.OAuth1;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -27,18 +26,6 @@ import java.util.stream.Collectors;
 @Service
 public class TwitterConsumer extends Thread {
 
-    @Value("${consumer.api.key}")
-    private String consumerAPIKey;
-
-    @Value("${consumer.secret.key}")
-    private String consumerSecretKey;
-
-    @Value("${access.token}")
-    private String accessToken;
-
-    @Value("${access.token.secret}")
-    private String accessTokenSecret;
-
     @Value("${kafka.topic.name}")
     private String topicName;
 
@@ -50,6 +37,8 @@ public class TwitterConsumer extends Thread {
 
     @Value("${twitter.terms}")
     private String twitterTerms;
+
+    private TwitterAuthentication twitterAuthentication;
 
     public void run()  {
         BlockingQueue<String> msgQueue = new LinkedBlockingQueue<String>(10000);
@@ -106,10 +95,10 @@ public class TwitterConsumer extends Thread {
 
         Hosts hosebirdHosts = new HttpHosts(Constants.STREAM_HOST);
         StatusesFilterEndpoint hosebirdEndpoint = new StatusesFilterEndpoint();
-        List<String> terms = Arrays.asList(twitterTerms.split(",")).stream().map(term -> term.trim()).collect(Collectors.toList());
+        List<String> terms = getTwitterTerms();
         hosebirdEndpoint.trackTerms(terms);
 
-        Authentication hosebirdAuth = new OAuth1(consumerAPIKey, consumerSecretKey, accessToken, accessTokenSecret);
+        Authentication hosebirdAuth = twitterAuthentication.getAuthentication();
 
         ClientBuilder builder = new ClientBuilder()
                 .name(clientName)                              // optional: mainly for the logs
@@ -119,5 +108,12 @@ public class TwitterConsumer extends Thread {
                 .processor(new StringDelimitedProcessor(msgQueue));                        // optional: use this if you want to process client events
 
         return builder.build();
+    }
+
+    private List<String> getTwitterTerms() {
+        return Arrays.asList(twitterTerms.split(","))
+                .stream()
+                .map(term -> term.trim())
+                .collect(Collectors.toList());
     }
 }
