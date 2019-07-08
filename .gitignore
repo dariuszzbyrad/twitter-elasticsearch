@@ -33,3 +33,4 @@ elasticsearch-producer/.idea/
 twitter-consumer/*.iml
 twitter-consumer/.idea/
 twitter-consumer/src/main/resources/application.properties
+twitter-consumer/target/*
