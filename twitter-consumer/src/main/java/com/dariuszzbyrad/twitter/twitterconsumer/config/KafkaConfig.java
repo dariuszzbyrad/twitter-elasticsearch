@@ -31,6 +31,20 @@ public class KafkaConfig {
         properties.setProperty(ProducerConfig.RETRIES_CONFIG, Integer.toString(Integer.MAX_VALUE));
         properties.setProperty(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5");
 
+        /*
+            Message Compression:
+             - Much smaller producer size (compression ratio uo to 4x)
+             - Faster to transfer data over the network.
+             - Better throughput.
+             - Better disk utilisation in Kafka.
+         */
+        ///Number of milliseconds a producer is willing to wait before sending a batch out. (default 0)
+        properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "20");
+        // Maximum number of bytes that will be included in a batch. (default 16KB)
+        properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(32*1024));
+        //Compression type. (default none)
+        properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy");
+
         return new KafkaProducer<>(properties);
     }
 
