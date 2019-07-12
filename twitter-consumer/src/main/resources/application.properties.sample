@@ -1,0 +1,10 @@
+consumer.api.key =
+consumer.secret.key =
+access.token =
+access.token.secret =
+
+twitter.terms = polska, programowanie
+
+kafka.topic.name = twitter_tweets
+kafka.bootstrap.server = 127.0.0.1:9092
+kafka.client.name = Hosebird-Client-01
