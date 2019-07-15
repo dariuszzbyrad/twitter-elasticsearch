@@ -17,5 +17,4 @@ public class ElasticsearchProducerApplication {
         TaskExecutor taskExecutor = context.getBean(TaskExecutor.class);
         taskExecutor.execute(elasticTweetProducer);
     }
-
 }
