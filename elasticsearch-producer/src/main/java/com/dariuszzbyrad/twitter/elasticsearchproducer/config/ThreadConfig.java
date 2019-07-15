@@ -8,9 +8,12 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Configuration
 public class ThreadConfig {
 
+    /**
+     * Create default thread pool task executor for jobs.
+     * @return The thread pool task executor.
+     */
     @Bean
     public TaskExecutor threadPoolTaskExecutor() {
-
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(4);
         executor.setMaxPoolSize(4);

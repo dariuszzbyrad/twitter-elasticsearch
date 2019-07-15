@@ -14,6 +14,10 @@ public class KafkaConfig {
     @Value("${kafka.bootstrap.server}")
     private String bootstrapServer;
 
+    /**
+     * Create kafka producer with default configuration.
+     * @return Kafka producer.
+     */
     public KafkaProducer<String, String> getKafkaProducer() {
         Properties properties = new Properties();
 
