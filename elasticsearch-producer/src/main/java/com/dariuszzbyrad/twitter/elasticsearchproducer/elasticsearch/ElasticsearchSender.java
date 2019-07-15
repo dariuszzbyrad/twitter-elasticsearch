@@ -25,6 +25,7 @@ public class ElasticsearchSender {
 
     /**
      * Send message(record) to elasticsearch.
+     *
      * @param record Record to send.
      * @return Record Id.
      */

@@ -39,18 +39,20 @@ public class TwitterConsumer implements Runnable {
     @Value("${twitter.terms}")
     private String twitterTerms;
 
-    private final TwitterAuthentication twitterAuthentication;
-    private final KafkaConfig kafkaConfig;
+    @Autowired
+    private TwitterAuthentication twitterAuthentication;
 
     @Autowired
-    public TwitterConsumer(TwitterAuthentication twitterAuthentication, KafkaConfig kafkaConfig) {
-        this.twitterAuthentication = twitterAuthentication;
-        this.kafkaConfig = kafkaConfig;
-    }
+    private KafkaConfig kafkaConfig;
 
+    public static final int TWITTER_QUEUE_SIZE = 10000;
+
+    /**
+     * Job for consume tweets by Twitter API and send to Kafka.
+     */
     public void run() {
         log.info("Run twitter consumer job");
-        BlockingQueue<String> msgQueue = new LinkedBlockingQueue<>(10000);
+        BlockingQueue<String> msgQueue = new LinkedBlockingQueue<>(TWITTER_QUEUE_SIZE);
         Client twitterClient = createTwitterClient(msgQueue);
         twitterClient.connect();
 
@@ -76,9 +78,9 @@ public class TwitterConsumer implements Runnable {
      * Send tweet to message queue.
      *
      * @param mqProducer Message Queue producer.
-     * @param msg Message to send.
+     * @param msg        Message to send.
      */
-    private void sendTweetToMQ(KafkaProducer<String, String> mqProducer, String msg) {
+    private void sendTweetToMQ(final KafkaProducer<String, String> mqProducer, final String msg) {
         mqProducer.send(new ProducerRecord<>(topicName, null, msg), (recordMetadata, e) -> {
             if (e != null) {
                 log.error("Something bad happened", e);
@@ -90,16 +92,16 @@ public class TwitterConsumer implements Runnable {
      * Close connection for Twitter and Kafka to be performed on a Program's termination.
      *
      * @param twitterClient The twitter client.
-     * @param mqProducer The Message Queue producer.
+     * @param mqProducer    The Message Queue producer.
      */
-    private void registerActionsForProgramTermination(Client twitterClient, KafkaProducer<String, String> mqProducer) {
+    private void registerActionsForProgramTermination(final Client twitterClient, final KafkaProducer<String, String> mqProducer) {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             twitterClient.stop();
             mqProducer.close();
         }));
     }
 
-    private Client createTwitterClient(BlockingQueue<String> msgQueue) {
+    private Client createTwitterClient(final BlockingQueue<String> msgQueue) {
         Hosts hosebirdHosts = new HttpHosts(Constants.STREAM_HOST);
         StatusesFilterEndpoint hosebirdEndpoint = new StatusesFilterEndpoint();
         List<String> terms = getTwitterTerms();

@@ -28,6 +28,7 @@ docker/ecosystem/*
 # Elasticsearch producer project
 elasticsearch-producer/*.iml
 elasticsearch-producer/.idea/
+elasticsearch-producer/target/
 
 # Twitter consumer project
 twitter-consumer/*.iml

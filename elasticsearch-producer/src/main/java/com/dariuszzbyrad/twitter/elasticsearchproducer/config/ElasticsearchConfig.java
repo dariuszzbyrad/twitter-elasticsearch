@@ -21,6 +21,7 @@ public class ElasticsearchConfig {
 
     /**
      * Create and get Rest Client for Elasticsearch.
+     *
      * @return The Rest Client.
      */
     public RestHighLevelClient getClient() {

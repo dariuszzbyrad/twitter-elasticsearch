@@ -9,7 +9,7 @@ import org.springframework.core.task.TaskExecutor;
 @SpringBootApplication
 public class TwitterConsumerApplication {
 
-    public static void main(String[] args) {
+    private static void main(final String[] args) {
         ApplicationContext context = SpringApplication.run(TwitterConsumerApplication.class, args);
 
         TwitterConsumer twitterProducer = context.getBean(TwitterConsumer.class);
@@ -17,5 +17,4 @@ public class TwitterConsumerApplication {
         TaskExecutor taskExecutor = context.getBean(TaskExecutor.class);
         taskExecutor.execute(twitterProducer);
     }
-
 }

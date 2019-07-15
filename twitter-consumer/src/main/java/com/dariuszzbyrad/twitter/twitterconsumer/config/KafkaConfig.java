@@ -14,8 +14,11 @@ public class KafkaConfig {
     @Value("${kafka.bootstrap.server}")
     private String bootstrapServer;
 
+    public static final int BATCH_SIZE_IN_BYTES = 32 * 1024;
+
     /**
      * Create kafka producer with default configuration.
+     *
      * @return Kafka producer.
      */
     public KafkaProducer<String, String> getKafkaProducer() {
@@ -45,7 +48,7 @@ public class KafkaConfig {
         ///Number of milliseconds a producer is willing to wait before sending a batch out. (default 0)
         properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "20");
         // Maximum number of bytes that will be included in a batch. (default 16KB)
-        properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(32*1024));
+        properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(BATCH_SIZE_IN_BYTES));
         //Compression type. (default none)
         properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy");
 

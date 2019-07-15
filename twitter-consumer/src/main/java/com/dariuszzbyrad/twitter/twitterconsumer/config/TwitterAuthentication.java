@@ -8,22 +8,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class TwitterAuthentication {
 
-    private final String consumerAPIKey;
-    private final String consumerSecretKey;
-    private final String accessToken;
-    private final String accessTokenSecret;
+    @Value("${consumer.api.key}")
+    private String consumerAPIKey;
 
-    public TwitterAuthentication(@Value("${consumer.api.key}") String consumerAPIKey,
-                                 @Value("${consumer.secret.key}") String consumerSecretKey,
-                                 @Value("${access.token}") String accessToken,
-                                 @Value("${access.token.secret}")String accessTokenSecret) {
+    @Value("${consumer.secret.key}")
+    private String consumerSecretKey;
 
-        this.consumerAPIKey = consumerAPIKey;
-        this.consumerSecretKey = consumerSecretKey;
-        this.accessToken = accessToken;
-        this.accessTokenSecret = accessTokenSecret;
-    }
+    @Value("${access.token}")
+    private String accessToken;
 
+    @Value("${access.token.secret}")
+    private String accessTokenSecret;
+
+    /**
+     * Get Authentication object for Twitter API.
+     *
+     * @return Authentication object.
+     */
     public Authentication getAuthentication() {
         return new OAuth1(consumerAPIKey, consumerSecretKey, accessToken, accessTokenSecret);
     }

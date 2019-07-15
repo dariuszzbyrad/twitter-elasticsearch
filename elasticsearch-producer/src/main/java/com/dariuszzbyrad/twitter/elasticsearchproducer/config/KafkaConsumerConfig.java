@@ -23,6 +23,7 @@ public class KafkaConsumerConfig {
 
     /**
      * Create and get Kafka consumer with default configuration.
+     *
      * @return The Kafka consumer.
      */
     public KafkaConsumer<String, String> getConsumer() {
