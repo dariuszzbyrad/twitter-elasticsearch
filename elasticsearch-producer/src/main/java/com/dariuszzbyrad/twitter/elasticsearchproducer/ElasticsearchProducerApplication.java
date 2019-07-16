@@ -9,7 +9,7 @@ import org.springframework.core.task.TaskExecutor;
 @SpringBootApplication
 public class ElasticsearchProducerApplication {
 
-    private static void main(final String[] args) {
+    public static void main(final String[] args) {
         ApplicationContext context = SpringApplication.run(ElasticsearchProducerApplication.class, args);
 
         ElasticTweetProducer elasticTweetProducer = context.getBean(ElasticTweetProducer.class);

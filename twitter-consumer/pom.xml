@@ -20,6 +20,9 @@
         <twitter.hbc.version>2.2.0</twitter.hbc.version>
         <lombok.version>1.18.8</lombok.version>
         <commons.lang.version>3.9</commons.lang.version>
+
+        <main.class>com.dariuszzbyrad.twitter.twitterconsumer.TwitterConsumerApplication</main.class>
+        <docker.image>twitter-consumer:latest</docker.image>
     </properties>
 
     <dependencies>
@@ -65,6 +68,35 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>${main.class}</mainClass>
+                    <layout>JAR</layout>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>0.9.11</version>
+                <configuration>
+                    <from>
+                        <image>adoptopenjdk/openjdk8:alpine-jre</image>
+                    </from>
+                    <to>
+                        <image>${docker.image}</image>
+                    </to>
+                    <container>
+                        <entrypoint>
+                            <shell>sh</shell>
+                            <option>-c</option>
+                            <arg>chmod +x /entrypoint.sh &amp;&amp; sync &amp;&amp; /entrypoint.sh</arg>
+                        </entrypoint>
+                        <ports>
+                            <port>8080</port>
+                        </ports>
+                        <useCurrentTimestamp>true</useCurrentTimestamp>
+                    </container>
+                </configuration>
             </plugin>
         </plugins>
     </build>
