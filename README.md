@@ -30,7 +30,11 @@ The Twitter producer is also Kafka consumer for fetching new tweets and send to 
    Starting docker_kafka1_1 ... done
    ```
 
-2. **Run Twitter Consumer project** 
+2. **Configuration Twitter Consumer project** 
+
+   Remove 'sample' extension for the application.properties.sample file and update credentials for Twitter API. 
+
+3. **Run Twitter Consumer project** 
 
    manually
 
@@ -49,7 +53,7 @@ The Twitter producer is also Kafka consumer for fetching new tweets and send to 
 
    
 
-3. **Run Elasticsearch Producer project** 
+4. **Run Elasticsearch Producer project** 
 
    manually
 
@@ -66,7 +70,7 @@ The Twitter producer is also Kafka consumer for fetching new tweets and send to 
    $ docker run elasticsearch-producer:latest
    ```
 
-4. **Verify**
+5. **Verify**
 
    ```bash
    $ docker ps
