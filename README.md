@@ -23,11 +23,12 @@ The Twitter producer is also Kafka consumer for fetching new tweets and send to 
    $ cd docker 
    $ docker-compose -f ecosystem.yml up -d
    
-   Starting elasticsearch ... done
    Starting docker_zoo1_1 ... done
-   Starting docker_kafka3_1 ... done
-   Starting docker_kafka2_1 ... done
+   Starting elasticsearch   ... done
    Starting docker_kafka1_1 ... done
+   Starting docker_kafka2_1 ... done
+   Starting docker_kafka3_1 ... done
+   Starting kibana          ... done
    ```
 
 2. **Configuration Twitter Consumer project** 
@@ -77,9 +78,10 @@ The Twitter producer is also Kafka consumer for fetching new tweets and send to 
    CONTAINER ID        IMAGE                                                 COMMAND                  CREATED             STATUS              PORTS                                            NAMES
    db71ff81826b        elasticsearch-producer:latest                         "sh -c 'chmod +x /en…"   17 minutes ago      Up 17 minutes       8080/tcp                                         angry_ramanujan
    c5e7848c30f9        twitter-consumer:latest                               "sh -c 'chmod +x /en…"   20 minutes ago      Up 20 minutes       8080/tcp                                         suspicious_khorana
-   744f532f4355        docker.elastic.co/elasticsearch/elasticsearch:6.6.0   "/usr/local/bin/dock…"   4 days ago          Up About a minute   0.0.0.0:9200->9200/tcp, 0.0.0.0:9300->9300/tcp   elasticsearch
-   c5902ec86a01        confluentinc/cp-kafka:5.2.1                           "/etc/confluent/dock…"   2 weeks ago         Up About a minute   9092/tcp, 0.0.0.0:9093->9093/tcp                 docker_kafka2_1
-   0f203cf440b9        confluentinc/cp-kafka:5.2.1                           "/etc/confluent/dock…"   2 weeks ago         Up About a minute   0.0.0.0:9092->9092/tcp                           docker_kafka1_1
-   9c8710ada420        confluentinc/cp-kafka:5.2.1                           "/etc/confluent/dock…"   2 weeks ago         Up About a minute   9092/tcp, 0.0.0.0:9094->9094/tcp                 docker_kafka3_1
-   4afa6a2a23fd        zookeeper:3.4.9                                       "/docker-entrypoint.…"   2 weeks ago         Up About a minute   2888/tcp, 0.0.0.0:2181->2181/tcp, 3888/tcp       docker_zoo1_1
+   7e4c5dab4c56        docker.elastic.co/kibana/kibana:7.2.0                 "/usr/local/bin/kiba…"   22 minutes ago      Up 44 seconds       0.0.0.0:5601->5601/tcp                           kibana
+   0c96af136e91        docker.elastic.co/elasticsearch/elasticsearch:7.2.0   "/usr/local/bin/dock…"   3 hours ago         Up 47 seconds       0.0.0.0:9200->9200/tcp, 0.0.0.0:9300->9300/tcp   elasticsearch
+   0d717cabc755        confluentinc/cp-kafka:5.2.1                           "/etc/confluent/dock…"   3 hours ago         Up 44 seconds       0.0.0.0:9092->9092/tcp                           docker_kafka1_1
+   f4bbd4f167cc        confluentinc/cp-kafka:5.2.1                           "/etc/confluent/dock…"   3 hours ago         Up 45 seconds       9092/tcp, 0.0.0.0:9093->9093/tcp                 docker_kafka2_1
+   74325cc19389        confluentinc/cp-kafka:5.2.1                           "/etc/confluent/dock…"   3 hours ago         Up 44 seconds       9092/tcp, 0.0.0.0:9094->9094/tcp                 docker_kafka3_1
+   083778d693ba        zookeeper:3.4.9                                       "/docker-entrypoint.…"   3 hours ago         Up 47 seconds       2888/tcp, 0.0.0.0:2181->2181/tcp, 3888/tcp       docker_zoo1_1
    ```
