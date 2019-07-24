@@ -86,6 +86,13 @@ The Twitter producer is also Kafka consumer for fetching new tweets and send to 
    083778d693ba        zookeeper:3.4.9                                       "/docker-entrypoint.…"   3 hours ago         Up 47 seconds       2888/tcp, 0.0.0.0:2181->2181/tcp, 3888/tcp       docker_zoo1_1
    ```
 
-# Notice
+6. **Check Kibana**
+
+   http://localhost:5601/
+
+   ![](img\kibana.png)
+
+
+# Notices
 
 I know, we have Kafka Connectors and my solution is like 'reinvent the wheel', but please remember that is education example to learn Kafka.
