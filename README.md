@@ -90,7 +90,9 @@ The Twitter producer is also Kafka consumer for fetching new tweets and send to 
 
    http://localhost:5601/
 
-   ![](img\kibana.png)
+   ![alt text][kibana]
+
+   [kibana]: img/kibana.png "Kiban"
 
 
 # Notices
