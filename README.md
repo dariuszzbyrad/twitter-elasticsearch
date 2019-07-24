@@ -85,3 +85,7 @@ The Twitter producer is also Kafka consumer for fetching new tweets and send to 
    74325cc19389        confluentinc/cp-kafka:5.2.1                           "/etc/confluent/dock…"   3 hours ago         Up 44 seconds       9092/tcp, 0.0.0.0:9094->9094/tcp                 docker_kafka3_1
    083778d693ba        zookeeper:3.4.9                                       "/docker-entrypoint.…"   3 hours ago         Up 47 seconds       2888/tcp, 0.0.0.0:2181->2181/tcp, 3888/tcp       docker_zoo1_1
    ```
+
+# Notice
+
+I know, we have Kafka Connectors and my solution is like 'reinvent the wheel', but please remember that is education example to learn Kafka.
