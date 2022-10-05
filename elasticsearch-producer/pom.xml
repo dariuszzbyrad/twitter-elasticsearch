@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <elasticsearch.version>7.1.1</elasticsearch.version>
+        <elasticsearch.version>7.14.0</elasticsearch.version>
 
         <main.class>com.dariuszzbyrad.twitter.elasticsearchproducer.ElasticsearchProducerApplication</main.class>
         <docker.image>elasticsearch-producer:latest</docker.image>
